@@ -22,34 +22,45 @@ some tests will include very large numbers.
 test data only employs positive integers.
  */
 public class NextSmaller {
-	public static long nextSmaller(long n)
-	  {
-		long resultat=0;
-		int llarg = String.valueOf(n).length();;
+	public static long nextSmaller(long n) {
+		long resultat = 0;
+		int llarg = String.valueOf(n).length();
+		long minim = 0;
+		
 		int[] array = new int[llarg];
-		for(int r=llarg;r>0;r--){
-		    array[r-1]= (int) (n % 10);
-		    n /= 10;
+		for (int r = llarg; r > 0; r--) {
+			array[r - 1] = (int) (n % 10);
+			n /= 10;
 		}
 		System.out.println(llarg);
 		System.out.println(array[0]);
 		System.out.println(array[1]);
-	
-		for(int i=llarg;i>1;i--) {
-			if(array[i-1]<array[i-2]||(array[i-2])==0) {
-				int temporal=array[i-1];
-				array[i-1]=array[i-2];
-				array[i-2]=temporal;
-				break;			
+
+		for (int i = llarg; i > 1; i--) {
+			for (int r = i-1; r >= 0; r--) {
+				System.out.println(i + " . "+ r);
+				if (array[i-1] < array[r] || (array[r]) == 0) {			
+					int temporal = array[i - 1];
+					array[i - 1] = array[r];
+					array[r] = temporal;
+					System.out.println(test(array));
+					if(test(array)>minim) minim=test(array);
+				}
 			}
 		}
-	
-		if(array[0]==0)return -1;
-		for(int i=0;i<array.length;i++) {
-			resultat= (resultat*10)+array[i];
+
+		if (array[0] == 0)
+			return -1;
+
+		System.out.println(minim);
+		return minim;
+	}
+
+	static long test(int[] array) {
+		long resultatTest = 0;
+		for (int i = 0; i < array.length; i++) {
+			resultatTest = (resultatTest * 10) + array[i];
 		}
-		
-		System.out.println(resultat);
-	    return resultat;
-	  }
+		return resultatTest;
+	}
 }
